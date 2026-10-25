@@ -1,0 +1,1930 @@
+<div class="min-h-screen flex flex-col bg-[#FAF8F5] text-stone-900 selection:bg-stone-900 selection:text-stone-50">
+  <!-- Strict 3-Zone Top Bar Contract -->
+  <header class="sticky top-0 z-30 bg-[#FAF8F5]/95 backdrop-blur-sm border-b border-stone-200/80">
+    <div class="max-w-[1360px] mx-auto flex items-center justify-between gap-8 px-6 py-4">
+      <!-- Zone 1: Brand Title (Single text element, one line) -->
+      <a
+        href="#storefront"
+        (click)="setView('storefront', $event)"
+        class="font-display text-2xl font-bold tracking-tight text-stone-950 whitespace-nowrap shrink-0"
+      >
+        Vellum Commerce
+      </a>
+
+      <!-- Zone 2: 5 Concise Single-Line Nav Links -->
+      <nav aria-label="Primary Navigation" class="hidden md:flex items-center gap-7 text-sm font-medium text-stone-600">
+        <a
+          href="#storefront"
+          (click)="setView('storefront', $event)"
+          [class]="activeView() === 'storefront' ? 'text-stone-950 underline underline-offset-8 decoration-stone-900 decoration-1.5 whitespace-nowrap shrink-0' : 'hover:text-stone-950 hover:underline hover:underline-offset-8 transition-colors whitespace-nowrap shrink-0'"
+        >
+          Storefront
+        </a>
+        <a
+          href="#console"
+          (click)="setView('console', $event)"
+          [class]="activeView() === 'console' ? 'text-stone-950 underline underline-offset-8 decoration-stone-900 decoration-1.5 whitespace-nowrap shrink-0' : 'hover:text-stone-950 hover:underline hover:underline-offset-8 transition-colors whitespace-nowrap shrink-0'"
+        >
+          Merchant Console
+        </a>
+        <a
+          href="#catalog"
+          (click)="setView('catalog', $event)"
+          [class]="activeView() === 'catalog' ? 'text-stone-950 underline underline-offset-8 decoration-stone-900 decoration-1.5 whitespace-nowrap shrink-0' : 'hover:text-stone-950 hover:underline hover:underline-offset-8 transition-colors whitespace-nowrap shrink-0'"
+        >
+          Catalog ({{ store.products().length }})
+        </a>
+        <a
+          href="#orders"
+          (click)="setView('orders', $event)"
+          [class]="activeView() === 'orders' ? 'text-stone-950 underline underline-offset-8 decoration-stone-900 decoration-1.5 whitespace-nowrap shrink-0' : 'hover:text-stone-950 hover:underline hover:underline-offset-8 transition-colors whitespace-nowrap shrink-0'"
+        >
+          Orders ({{ store.orders().length }})
+        </a>
+        <a
+          href="#pricing"
+          (click)="setView('pricing', $event)"
+          [class]="activeView() === 'pricing' ? 'text-stone-950 underline underline-offset-8 decoration-stone-900 decoration-1.5 whitespace-nowrap shrink-0' : 'hover:text-stone-950 hover:underline hover:underline-offset-8 transition-colors whitespace-nowrap shrink-0'"
+        >
+          SaaS Plans
+        </a>
+      </nav>
+
+      <!-- Zone 3: 1 Primary Action -->
+      <div class="flex items-center shrink-0">
+        <button
+          type="button"
+          (click)="openCartDrawer()"
+          class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-stone-50 bg-stone-900 rounded-lg hover:bg-stone-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-stone-900 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+        >
+          <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">shopping_bag</mat-icon>
+          <span>Shopping Bag (<span class="font-mono tabular-nums">{{ store.cartCount() }}</span>)</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Navigation Bar (Visible only on small viewports) -->
+  <div class="md:hidden border-b border-stone-200 bg-[#F4F1EA] px-4 py-2 overflow-x-auto">
+    <div class="flex items-center gap-2">
+      <button
+        type="button"
+        (click)="setView('storefront')"
+        [class]="activeView() === 'storefront' ? 'px-3 py-1.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-md whitespace-nowrap shrink-0' : 'px-3 py-1.5 text-xs font-medium text-stone-700 whitespace-nowrap shrink-0'"
+      >
+        Storefront
+      </button>
+      <button
+        type="button"
+        (click)="setView('console')"
+        [class]="activeView() === 'console' ? 'px-3 py-1.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-md whitespace-nowrap shrink-0' : 'px-3 py-1.5 text-xs font-medium text-stone-700 whitespace-nowrap shrink-0'"
+      >
+        Merchant Console
+      </button>
+      <button
+        type="button"
+        (click)="setView('catalog')"
+        [class]="activeView() === 'catalog' ? 'px-3 py-1.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-md whitespace-nowrap shrink-0' : 'px-3 py-1.5 text-xs font-medium text-stone-700 whitespace-nowrap shrink-0'"
+      >
+        Catalog
+      </button>
+      <button
+        type="button"
+        (click)="setView('orders')"
+        [class]="activeView() === 'orders' ? 'px-3 py-1.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-md whitespace-nowrap shrink-0' : 'px-3 py-1.5 text-xs font-medium text-stone-700 whitespace-nowrap shrink-0'"
+      >
+        Orders
+      </button>
+      <button
+        type="button"
+        (click)="setView('pricing')"
+        [class]="activeView() === 'pricing' ? 'px-3 py-1.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-md whitespace-nowrap shrink-0' : 'px-3 py-1.5 text-xs font-medium text-stone-700 whitespace-nowrap shrink-0'"
+      >
+        SaaS Plans
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Feedback Notification -->
+  @if (toastMessage()) {
+    <div class="fixed bottom-6 right-6 z-50 max-w-md bg-stone-900 text-stone-50 px-4 py-3 rounded-xl shadow-md border border-stone-700 flex items-center gap-3">
+      <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4 text-amber-400 shrink-0">check_circle</mat-icon>
+      <p class="text-xs font-medium leading-snug">{{ toastMessage() }}</p>
+    </div>
+  }
+
+  <!-- MAIN WORKSPACE VIEWPORT -->
+  <main class="flex-1">
+    <!-- ========================================================================= -->
+    <!-- VIEW 1: LIVE D2C & B2B ARCHITECTURAL STOREFRONT                           -->
+    <!-- ========================================================================= -->
+    @if (activeView() === 'storefront') {
+      <!-- SECTION 1: Split-Screen Hero + Full-Width 4-Column KPI & Trust Strip -->
+      <section class="max-w-[1360px] mx-auto px-6 pt-8 pb-12 border-b border-stone-200/80">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          <!-- Left Editorial Column (7 cols) -->
+          <div class="lg:col-span-7 flex flex-col justify-between bg-[#F3EFE6] border border-stone-200/90 rounded-2xl p-8 lg:p-10">
+            <div>
+              <!-- Unboxed Metadata Line (Zero-Pill Discipline) -->
+              <div class="flex flex-wrap items-center gap-2 text-xs text-stone-600 mb-5">
+                <span class="font-medium text-stone-900">Autumn / Winter Studio Collection</span>
+                <span aria-hidden="true">·</span>
+                <span>Munich Architectural Hardware</span>
+                <span aria-hidden="true">·</span>
+                <span>ISO 9001 Certified</span>
+              </div>
+
+              <h1 class="font-display text-4xl sm:text-5xl lg:text-[54px] font-bold tracking-tight text-stone-950 leading-[1.08] text-balance mb-5">
+                Architectural Luminaires &amp; Tactile Studio Instruments.
+              </h1>
+
+              <p class="text-base text-stone-700 leading-relaxed max-w-[62ch] mb-8">
+                Machined from unlacquered Spanish brass, honed Roman travertine, and billet aluminum. Powered by Vellum Commerce for instant direct-to-studio fulfillment, automated care replenishment, and B2B Net-30 trade procurement.
+              </p>
+            </div>
+
+            <div>
+              <!-- Interactive Mode & Action Controls -->
+              <div class="flex flex-wrap items-center gap-4 pt-6 border-t border-stone-300/70">
+                <a
+                  href="#collection-grid"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold bg-stone-950 text-stone-50 rounded-lg hover:bg-stone-800 transition-colors whitespace-nowrap shrink-0"
+                >
+                  <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">arrow_downward</mat-icon>
+                  <span>Explore Objects</span>
+                </a>
+
+                <button
+                  type="button"
+                  (click)="inspectProduct(store.products()[0], true)"
+                  class="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-medium text-stone-900 bg-[#FAF8F5] border border-stone-300 rounded-lg hover:bg-stone-100 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                >
+                  <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">tune</mat-icon>
+                  <span>Configure Atelier Lamp</span>
+                </button>
+
+                <!-- Interactive Pricing Mode Segmented Toggle -->
+                <div class="ml-auto flex items-center gap-1 p-1 bg-stone-200/80 rounded-lg">
+                  <button
+                    type="button"
+                    (click)="toggleB2bMode(false)"
+                    [class]="!b2bPricingMode() ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+                  >
+                    D2C Retail
+                  </button>
+                  <button
+                    type="button"
+                    (click)="toggleB2bMode(true)"
+                    [class]="b2bPricingMode() ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+                  >
+                    B2B Trade (-20%)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Visual Showcase Column (5 cols) -->
+          <div class="lg:col-span-5 relative rounded-2xl overflow-hidden border border-stone-200/90 bg-[#E5DEC9] flex flex-col justify-end min-h-[360px]">
+            <img
+              [src]="store.heroImageUrl"
+              alt="Atelier Alabaster Table Lamp on honed travertine stone plinth"
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-cover lg:h-full"
+            />
+            <!-- Measured Contrast Scrim for Media Overlay -->
+            <div class="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/30 to-transparent flex flex-col justify-end p-6 text-stone-50">
+              <div class="flex items-center gap-2 text-xs text-stone-300 mb-1">
+                <span>Featured Flagship</span>
+                <span aria-hidden="true">·</span>
+                <span class="font-mono tabular-nums">SKU VL-101-BR</span>
+                <span aria-hidden="true">·</span>
+                <span>2700K Stepless Dimming</span>
+              </div>
+              <div class="flex items-baseline justify-between gap-4">
+                <h2 class="font-display text-2xl font-semibold text-white">
+                  Atelier Alabaster Table Lamp
+                </h2>
+                <span class="font-mono text-lg font-semibold text-amber-300 tabular-nums shrink-0">
+                  ${{ b2bPricingMode() ? store.products()[0].tradePrice : store.products()[0].retailPrice }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Full-Width 4-Column Quantitative Proof & Merchant Telemetry Row Below Hero Split -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 pt-6 border-t border-stone-200/80">
+          <div>
+            <p class="text-xs text-stone-500 mb-1">Direct &amp; B2B Dispatch Velocity</p>
+            <p class="font-mono text-xl font-semibold text-stone-950 tabular-nums">99.4% Within 24 Hours</p>
+            <p class="text-xs text-stone-600 mt-0.5">From Munich &amp; Zurich bonded hubs</p>
+          </div>
+          <div>
+            <p class="text-xs text-stone-500 mb-1">Complimentary Express Freight</p>
+            <p class="font-mono text-xl font-semibold text-stone-950 tabular-nums">Orders Over $450 USD</p>
+            <p class="text-xs text-stone-600 mt-0.5">Insured climate-controlled courier</p>
+          </div>
+          <div>
+            <p class="text-xs text-stone-500 mb-1">Trade &amp; Replenishment Savings</p>
+            <p class="font-mono text-xl font-semibold text-stone-950 tabular-nums">15% to 20% Net Reduction</p>
+            <p class="text-xs text-stone-600 mt-0.5">Corporate Net-30 invoicing included</p>
+          </div>
+          <div>
+            <p class="text-xs text-stone-500 mb-1">Live SaaS Storefront Sync</p>
+            <p class="font-mono text-xl font-semibold text-stone-950 tabular-nums">{{ store.orders().length }} Active Orders</p>
+            <p class="text-xs text-stone-600 mt-0.5">Real-time inventory &amp; ERP ledger</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: Featured Collection Grid + Contiguous Purchase Module -->
+      <section id="collection-grid" class="max-w-[1360px] mx-auto px-6 py-12 border-b border-stone-200/80">
+        <!-- Section Header & Interactive Filter Bar -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-stone-500 mb-2">
+              <span>01. Curated Hardware Catalog</span>
+              <span aria-hidden="true">·</span>
+              <span class="font-mono tabular-nums">{{ filteredProducts().length }} objects available</span>
+            </div>
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-stone-950 tracking-tight">
+              Architectural Objects &amp; Studio Systems
+            </h2>
+          </div>
+
+          <!-- Interactive Filter Controls (Functional Buttons & Search) -->
+          <div class="flex flex-wrap items-center gap-3">
+            <!-- Category Segmented Control -->
+            <div role="group" aria-label="Filter products by category" class="flex items-center gap-1 p-1 bg-stone-200/75 rounded-lg overflow-x-auto">
+              <button
+                type="button"
+                (click)="setCategory('All')"
+                [class]="selectedCategory() === 'All' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                All Objects
+              </button>
+              <button
+                type="button"
+                (click)="setCategory('Lighting')"
+                [class]="selectedCategory() === 'Lighting' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Lighting
+              </button>
+              <button
+                type="button"
+                (click)="setCategory('Acoustics')"
+                [class]="selectedCategory() === 'Acoustics' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Acoustics
+              </button>
+              <button
+                type="button"
+                (click)="setCategory('Desk Hardware')"
+                [class]="selectedCategory() === 'Desk Hardware' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Desk Hardware
+              </button>
+              <button
+                type="button"
+                (click)="setCategory('Vessels')"
+                [class]="selectedCategory() === 'Vessels' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Vessels
+              </button>
+            </div>
+
+            <!-- Live Client-Side Search -->
+            <div class="relative">
+              <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 !w-4 !h-4 !text-[16px] !leading-4 text-stone-400">search</mat-icon>
+              <input
+                type="text"
+                [formControl]="searchControl"
+                placeholder="Search SKU, material, title..."
+                aria-label="Search catalog"
+                class="pl-9 pr-3 py-1.5 text-xs bg-white border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-stone-900 w-48 sm:w-56"
+              />
+            </div>
+
+            <!-- Sort Selector -->
+            <div class="flex items-center gap-1 p-1 bg-stone-200/75 rounded-lg">
+              <button
+                type="button"
+                (click)="setSort('featured')"
+                [class]="sortBy() === 'featured' ? 'px-2.5 py-1 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-2.5 py-1 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Featured
+              </button>
+              <button
+                type="button"
+                (click)="setSort('price-asc')"
+                [class]="sortBy() === 'price-asc' ? 'px-2.5 py-1 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-2.5 py-1 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Price ↑
+              </button>
+              <button
+                type="button"
+                (click)="setSort('price-desc')"
+                [class]="sortBy() === 'price-desc' ? 'px-2.5 py-1 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-2.5 py-1 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Price ↓
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Empty Filter State -->
+        @if (filteredProducts().length === 0) {
+          <div class="bg-[#F3EFE6] border border-stone-200 rounded-2xl p-12 text-center my-6">
+            <p class="font-display text-2xl font-semibold text-stone-900 mb-2">
+              No architectural objects match your current filter criteria
+            </p>
+            <p class="text-sm text-stone-600 mb-6">
+              Try clearing your search query or switching back to all product categories.
+            </p>
+            <button
+              type="button"
+              (click)="clearStorefrontFilters()"
+              class="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold bg-stone-900 text-stone-50 rounded-lg hover:bg-stone-800 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">restart_alt</mat-icon>
+              <span>Reset Catalog Filters</span>
+            </button>
+          </div>
+        } @else {
+          <!-- 3-Column Product Grid (Uniform aspect ratio, generous gap-8, single-elevation depth) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @for (product of filteredProducts(); track product.id) {
+              <article
+                tabindex="0"
+                (click)="inspectProduct(product, false)"
+                (keydown.enter)="inspectProduct(product, false)"
+                [class]="activeProduct().id === product.id ? 'group bg-white border-2 border-stone-900 rounded-2xl overflow-hidden flex flex-col justify-between transition-transform duration-150 hover:-translate-y-0.5 cursor-pointer' : 'group bg-white border border-stone-200/90 rounded-2xl overflow-hidden flex flex-col justify-between transition-transform duration-150 hover:-translate-y-0.5 cursor-pointer'"
+              >
+                <div>
+                  <!-- Product Image Container (68-72% visual lead on neutral warm stone surface) -->
+                  <div class="relative aspect-4/3 bg-[#F2EFE9] overflow-hidden border-b border-stone-100">
+                    <img
+                      [src]="product.imageUrl"
+                      [alt]="product.name + ' — ' + product.materials"
+                      referrerpolicy="no-referrer"
+                      class="w-full h-full object-cover transition-transform duration-200 group-hover:scale-[1.02]"
+                    />
+                    <!-- Maximum 1 subtle quiet text tag in corner -->
+                    <div class="absolute top-3 left-4 text-[11px] font-medium text-stone-700">
+                      {{ product.featuredTag }}
+                    </div>
+                  </div>
+
+                  <!-- Product Card Body -->
+                  <div class="p-6">
+                    <!-- Unboxed Metadata with typographic separators -->
+                    <div class="flex items-center gap-2 text-xs text-stone-500 uppercase tracking-wider mb-2">
+                      <span>{{ product.category }}</span>
+                      <span aria-hidden="true">·</span>
+                      <span class="font-mono tabular-nums">{{ product.sku }}</span>
+                      <span aria-hidden="true">·</span>
+                      <span [class]="product.stockCount <= 10 ? 'text-amber-700 font-medium normal-case tracking-normal' : 'text-emerald-700 font-medium normal-case tracking-normal'">
+                        {{ product.stockCount }} in stock
+                      </span>
+                    </div>
+
+                    <!-- Product Title & Price Baseline Aligned -->
+                    <div class="flex items-baseline justify-between gap-4 mb-2">
+                      <h3 class="text-base font-semibold text-stone-950 group-hover:underline underline-offset-4">
+                        {{ product.name }}
+                      </h3>
+                      <div class="text-right shrink-0">
+                        <span class="font-mono text-[15px] font-semibold text-stone-950 tabular-nums">
+                          ${{ b2bPricingMode() ? product.tradePrice : product.retailPrice }}
+                        </span>
+                        @if (b2bPricingMode()) {
+                          <span class="block font-mono text-[11px] text-stone-400 line-through tabular-nums">
+                            ${{ product.retailPrice }}
+                          </span>
+                        }
+                      </div>
+                    </div>
+
+                    <p class="text-xs text-stone-600 leading-relaxed line-clamp-2 mb-4">
+                      {{ product.subtitle }}
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Card Footer Actions -->
+                <div class="px-6 pb-6 pt-3 border-t border-stone-100 flex items-center justify-between gap-3">
+                  <button
+                    type="button"
+                    (click)="inspectProduct(product, true); $event.stopPropagation()"
+                    class="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-stone-700 hover:text-stone-950 bg-stone-100 hover:bg-stone-200/80 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                  >
+                    <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">visibility</mat-icon>
+                    <span>Configure Spec</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    (click)="quickAddToCart(product, $event)"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-stone-50 bg-stone-900 hover:bg-stone-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                  >
+                    <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">add_shopping_cart</mat-icon>
+                    <span>Add to Bag</span>
+                  </button>
+                </div>
+              </article>
+            }
+          </div>
+        }
+
+        <!-- CONTIGUOUS PURCHASE MODULE (PDP Spotlight below grid) -->
+        @let currentProduct = activeProduct();
+        <div id="pdp-configurator" class="mt-14 pt-12 border-t border-stone-200/90">
+          <div class="flex items-center gap-2 text-xs text-stone-500 mb-6">
+            <span>02. Contiguous Purchase &amp; Specification Module</span>
+            <span aria-hidden="true">·</span>
+            <span>Select finish variant, replenishment cadence, and trade volume</span>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch bg-white border border-stone-200 rounded-2xl p-6 lg:p-8">
+            <!-- Left Sticky Gallery & Technical Spec Sheet (6 cols) -->
+            <div class="lg:col-span-6 flex flex-col justify-between bg-[#F3EFE6] rounded-xl p-6">
+              <div class="aspect-4/3 rounded-lg overflow-hidden bg-[#EAE5DA] mb-6">
+                <img
+                  [src]="currentProduct.imageUrl"
+                  [alt]="currentProduct.name"
+                  referrerpolicy="no-referrer"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+
+              <!-- Architectural Dimension & Material Callouts -->
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-4 border-t border-stone-300/70 text-xs">
+                <div>
+                  <span class="block text-stone-500 mb-0.5">Dimensions</span>
+                  <span class="font-mono font-medium text-stone-900 tabular-nums">{{ currentProduct.dimensions }}</span>
+                </div>
+                <div>
+                  <span class="block text-stone-500 mb-0.5">Mass</span>
+                  <span class="font-mono font-medium text-stone-900 tabular-nums">{{ currentProduct.weight }}</span>
+                </div>
+                <div>
+                  <span class="block text-stone-500 mb-0.5">Origin</span>
+                  <span class="font-medium text-stone-900">{{ currentProduct.origin }}</span>
+                </div>
+                <div>
+                  <span class="block text-stone-500 mb-0.5">Dispatch</span>
+                  <span class="font-medium text-emerald-800">{{ currentProduct.leadTime }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right Contiguous Purchase Module (6 cols) -->
+            <div class="lg:col-span-6 flex flex-col justify-between">
+              <div>
+                <!-- Clean Unboxed Metadata -->
+                <div class="flex flex-wrap items-center gap-2 text-xs text-stone-500 mb-2">
+                  <span>{{ currentProduct.category }}</span>
+                  <span aria-hidden="true">·</span>
+                  <span class="font-mono tabular-nums">{{ currentProduct.sku }}</span>
+                  <span aria-hidden="true">·</span>
+                  <span class="text-emerald-700 font-medium">Available ({{ currentProduct.stockCount }} units in Munich Vault)</span>
+                </div>
+
+                <div class="flex items-baseline justify-between gap-4 mb-3">
+                  <h3 class="font-display text-3xl font-bold text-stone-950">
+                    {{ currentProduct.name }}
+                  </h3>
+                  <span class="font-mono text-2xl font-bold text-stone-950 tabular-nums shrink-0">
+                    ${{ activeProductUnitPrice() }}
+                  </span>
+                </div>
+
+                <p class="text-sm text-stone-600 leading-relaxed mb-6">
+                  {{ currentProduct.description }}
+                </p>
+
+                <!-- Step 1: Finish Variant Selector -->
+                <div class="mb-6">
+                  <span class="block text-xs font-semibold text-stone-800 mb-2">
+                    Surface Finish: <span class="font-normal text-stone-600">{{ selectedFinish() }}</span>
+                  </span>
+                  <div class="flex flex-wrap items-center gap-2">
+                    @for (finish of currentProduct.finishes; track finish) {
+                      <button
+                        type="button"
+                        (click)="selectedFinish.set(finish)"
+                        [class]="selectedFinish() === finish ? 'px-3.5 py-2 text-xs font-semibold bg-stone-900 text-stone-50 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'px-3.5 py-2 text-xs font-medium bg-stone-100 text-stone-700 hover:bg-stone-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+                      >
+                        {{ finish }}
+                      </button>
+                    }
+                  </div>
+                </div>
+
+                <!-- Step 2: SaaS Purchase Cadence / Trade Contract Selector -->
+                <div class="mb-6">
+                  <span class="block text-xs font-semibold text-stone-800 mb-2">
+                    Procurement Contract &amp; Billing Cadence
+                  </span>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                    <button
+                      type="button"
+                      (click)="selectedCadence.set('one-time')"
+                      [class]="selectedCadence() === 'one-time' ? 'p-3 text-left border-2 border-stone-900 bg-stone-50 rounded-xl cursor-pointer' : 'p-3 text-left border border-stone-200 hover:border-stone-400 rounded-xl cursor-pointer'"
+                    >
+                      <span class="block text-xs font-semibold text-stone-900">Standard One-Time</span>
+                      <span class="block font-mono text-sm font-bold text-stone-950 tabular-nums mt-0.5">${{ currentProduct.retailPrice }} / unit</span>
+                      <span class="block text-[11px] text-stone-500 mt-0.5">2-year hardware warranty</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      (click)="selectedCadence.set('subscription')"
+                      [class]="selectedCadence() === 'subscription' ? 'p-3 text-left border-2 border-stone-900 bg-stone-50 rounded-xl cursor-pointer' : 'p-3 text-left border border-stone-200 hover:border-stone-400 rounded-xl cursor-pointer'"
+                    >
+                      <span class="block text-xs font-semibold text-stone-900">Studio Care Plan (-{{ currentProduct.subscriptionDiscountPct }}%)</span>
+                      <span class="block font-mono text-sm font-bold text-emerald-800 tabular-nums mt-0.5">
+                        ${{ store.calculateUnitPrice(currentProduct, 'subscription', false) }} / unit
+                      </span>
+                      <span class="block text-[11px] text-stone-500 mt-0.5">Annual wax &amp; optic service</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      (click)="selectedCadence.set('b2b-pack')"
+                      [class]="selectedCadence() === 'b2b-pack' ? 'p-3 text-left border-2 border-stone-900 bg-stone-50 rounded-xl cursor-pointer' : 'p-3 text-left border border-stone-200 hover:border-stone-400 rounded-xl cursor-pointer'"
+                    >
+                      <span class="block text-xs font-semibold text-stone-900">B2B Trade Rate (-20%)</span>
+                      <span class="block font-mono text-sm font-bold text-stone-950 tabular-nums mt-0.5">${{ currentProduct.tradePrice }} / unit</span>
+                      <span class="block text-[11px] text-stone-500 mt-0.5">Net-30 invoice eligible</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3: Quantity Stepper & Primary Add to Bag CTA -->
+              <div class="pt-6 border-t border-stone-200 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs font-medium text-stone-600 mr-1">Qty:</span>
+                  <button
+                    type="button"
+                    (click)="adjustPdpQuantity(-1)"
+                    aria-label="Decrease quantity"
+                    class="w-9 h-9 inline-flex items-center justify-center rounded-lg border border-stone-300 hover:bg-stone-100 text-stone-800 cursor-pointer"
+                  >
+                    <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">remove</mat-icon>
+                  </button>
+                  <span class="w-10 text-center font-mono text-sm font-semibold tabular-nums">
+                    {{ pdpQuantity() }}
+                  </span>
+                  <button
+                    type="button"
+                    (click)="adjustPdpQuantity(1)"
+                    aria-label="Increase quantity"
+                    class="w-9 h-9 inline-flex items-center justify-center rounded-lg border border-stone-300 hover:bg-stone-100 text-stone-800 cursor-pointer"
+                  >
+                    <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">add</mat-icon>
+                  </button>
+                </div>
+
+                <button
+                  type="button"
+                  (click)="addConfiguredProductToCart()"
+                  class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-6 py-3 text-xs font-semibold text-stone-50 bg-stone-950 hover:bg-stone-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                >
+                  <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">shopping_bag</mat-icon>
+                  <span>
+                    Add {{ pdpQuantity() }} to Bag —
+                    <span class="font-mono tabular-nums">${{ activeProductUnitPrice() * pdpQuantity() }}</span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 3: Architectural Craftsmanship & Attributable Client Proof -->
+      <section class="max-w-[1360px] mx-auto px-6 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div class="lg:col-span-7">
+            <div class="flex items-center gap-2 text-xs text-stone-500 mb-2">
+              <span>03. Material Provenance &amp; SaaS Procurement</span>
+              <span aria-hidden="true">·</span>
+              <span>Claim-to-Proof Verification</span>
+            </div>
+            <h2 class="font-display text-3xl font-bold text-stone-950 text-balance mb-4">
+              Unified Direct-to-Consumer &amp; B2B Trade Operations without Middleware.
+            </h2>
+            <p class="text-sm text-stone-600 leading-relaxed max-w-[65ch] mb-6">
+              Traditional luxury hardware brands run separate storefronts for retail buyers and architectural interior specifiers. Vellum Commerce unifies real-time Munich warehouse allocation, Net-30 corporate trade invoicing, and recurring care subscriptions in a single sub-50ms storefront engine.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-4 border-t border-stone-200">
+              <div>
+                <p class="font-mono text-2xl font-bold text-stone-950 tabular-nums">+42% B2B AOV</p>
+                <p class="text-xs text-stone-600 mt-1">Measured across 180+ design practices in 6 months via self-serve Net-30 checkout.</p>
+              </div>
+              <div>
+                <p class="font-mono text-2xl font-bold text-stone-950 tabular-nums">0.0% Stockouts</p>
+                <p class="text-xs text-stone-600 mt-1">Atomic SKU reservation across D2C checkout and trade pro-forma quotes.</p>
+              </div>
+              <div>
+                <p class="font-mono text-2xl font-bold text-stone-950 tabular-nums">18.4 min Saved</p>
+                <p class="text-xs text-stone-600 mt-1">Per wholesale specification order compared to manual PDF invoice workflows.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attributable Testimonial Card (No thick left border, clean all-around hairline border) -->
+          <div class="lg:col-span-5 bg-[#F3EFE6] border border-stone-200/90 rounded-2xl p-8">
+            <p class="font-display text-xl italic text-stone-900 leading-relaxed mb-6">
+              “Before switching our catalog to Vellum Commerce, specifying 40 custom brass luminaires for a hotel project in Stockholm required six back-and-forth wire transfer emails. Now our architects toggle B2B Trade mode, lock live Munich inventory, and check out on Net-30 terms in ninety seconds — cutting our procurement cycle from 9 days to 4 hours.”
+            </p>
+            <div class="pt-4 border-t border-stone-300/70 flex items-center justify-between gap-4">
+              <div>
+                <p class="text-sm font-semibold text-stone-950">Clara Lindqvist, SAR/MSA</p>
+                <p class="text-xs text-stone-600">Principal Specifier · Nordic Spatial Architecture AB, Stockholm</p>
+              </div>
+              <span class="font-mono text-xs text-stone-500 tabular-nums shrink-0">Verified Client</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 2: MERCHANT SAAS CONSOLE & TELEMETRY OVERVIEW                        -->
+    <!-- ========================================================================= -->
+    @if (activeView() === 'console') {
+      <section class="max-w-[1360px] mx-auto px-6 py-8">
+        <!-- Breadcrumb & Primary Console Actions -->
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-8 border-b border-stone-200">
+          <div class="flex items-center gap-2 text-xs text-stone-500">
+            <span>Vellum Workspace</span>
+            <span aria-hidden="true">/</span>
+            <span>Munich Flagship Storefront</span>
+            <span aria-hidden="true">/</span>
+            <span class="font-semibold text-stone-900">Executive Telemetry &amp; Revenue</span>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              (click)="setView('catalog')"
+              class="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-stone-800 bg-white border border-stone-300 rounded-lg hover:bg-stone-100 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">inventory_2</mat-icon>
+              <span>Manage SKUs</span>
+            </button>
+            <button
+              type="button"
+              (click)="showNewProductModal.set(true)"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-stone-50 bg-stone-900 rounded-lg hover:bg-stone-800 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">add</mat-icon>
+              <span>Publish New SKU</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4-Column SaaS KPI Strip (Single-Elevation, Tabular Numerals) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+          <div class="bg-white border border-stone-200 rounded-xl p-5">
+            <div class="flex items-center justify-between text-xs text-stone-500 mb-2">
+              <span>Gross Merchandise Volume (30d)</span>
+              <span class="text-emerald-700 font-mono font-medium tabular-nums">+18.4%</span>
+            </div>
+            <p class="font-mono text-2xl font-bold text-stone-950 tabular-nums">
+              ${{ store.totalGmv().toLocaleString() }}
+            </p>
+            <p class="text-xs text-stone-500 mt-1">Combined D2C + B2B Net-30 volume</p>
+          </div>
+
+          <div class="bg-white border border-stone-200 rounded-xl p-5">
+            <div class="flex items-center justify-between text-xs text-stone-500 mb-2">
+              <span>Recurring Care &amp; Trade MRR</span>
+              <span class="text-emerald-700 font-mono font-medium tabular-nums">+24.1%</span>
+            </div>
+            <p class="font-mono text-2xl font-bold text-stone-950 tabular-nums">
+              ${{ store.activeMrr().toLocaleString() }}
+            </p>
+            <p class="text-xs text-stone-500 mt-1">Active studio replenishment contracts</p>
+          </div>
+
+          <div class="bg-white border border-stone-200 rounded-xl p-5">
+            <div class="flex items-center justify-between text-xs text-stone-500 mb-2">
+              <span>Fulfillment Queue Velocity</span>
+              <span class="text-stone-700 font-mono font-medium tabular-nums">99.4% SLA</span>
+            </div>
+            <p class="font-mono text-2xl font-bold text-stone-950 tabular-nums">
+              {{ store.orders().length }} Total Orders
+            </p>
+            <p class="text-xs text-stone-500 mt-1">Avg dispatch time: 4h 18m from order</p>
+          </div>
+
+          <div class="bg-white border border-stone-200 rounded-xl p-5">
+            <div class="flex items-center justify-between text-xs text-stone-500 mb-2">
+              <span>Low-Stock Restock Alerts</span>
+              <span [class]="store.lowStockCount() > 0 ? 'text-amber-700 font-mono font-medium tabular-nums' : 'text-emerald-700 font-mono font-medium tabular-nums'">
+                {{ store.lowStockCount() > 0 ? 'Action Needed' : 'Nominal' }}
+              </span>
+            </div>
+            <p class="font-mono text-2xl font-bold text-stone-950 tabular-nums">
+              {{ store.lowStockCount() }} SKUs &le; 10 Units
+            </p>
+            <p class="text-xs text-stone-500 mt-1">Munich &amp; Valencia production queues</p>
+          </div>
+        </div>
+
+        <!-- Mechanism-to-Outcome Interactive Chain -->
+        <div class="bg-white border border-stone-200 rounded-2xl p-6 lg:p-8 mb-10">
+          <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-stone-200">
+            <div>
+              <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
+                <span>SaaS Commerce Engine Architecture</span>
+                <span aria-hidden="true">·</span>
+                <span>User Goal &rarr; Visible Mechanism &rarr; Measurable Benefit</span>
+              </div>
+              <h2 class="font-display text-2xl font-bold text-stone-950">
+                Interactive Commerce Automation Pipelines
+              </h2>
+            </div>
+
+            <div class="flex items-center gap-1 p-1 bg-stone-100 rounded-lg">
+              <button
+                type="button"
+                (click)="activeMechanismTab.set('b2b-net30')"
+                [class]="activeMechanismTab() === 'b2b-net30' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                B2B Net-30 Underwriting
+              </button>
+              <button
+                type="button"
+                (click)="activeMechanismTab.set('replenishment')"
+                [class]="activeMechanismTab() === 'replenishment' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Care Subscriptions
+              </button>
+              <button
+                type="button"
+                (click)="activeMechanismTab.set('multi-node')"
+                [class]="activeMechanismTab() === 'multi-node' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Multi-Node Inventory
+              </button>
+            </div>
+          </div>
+
+          @if (activeMechanismTab() === 'b2b-net30') {
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">1. Merchant Goal</p>
+                <h3 class="text-base font-semibold text-stone-950 mb-2">Eliminate Manual Pro-Forma Invoices</h3>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Allow architectural practices and hospitality buyers to purchase high-ticket lighting and acoustic systems online without credit card ceiling friction.
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">2. Visible Interface Mechanism</p>
+                <h3 class="text-base font-semibold text-stone-950 mb-2">Instant VAT/DUNS Credit Rule Engine</h3>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Toggling B2B Trade Mode dynamically reprices all catalog SKUs (-20%) and unlocks one-click Corporate Net-30 checkout in the slide-over bag.
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">3. Measurable Benefit</p>
+                <p class="font-mono text-2xl font-bold text-emerald-800 tabular-nums mb-1">+42% Trade Conversion</p>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Average wholesale order value increases from $1,120 to $2,840 with zero manual accounts-receivable intervention.
+                </p>
+              </div>
+            </div>
+          }
+
+          @if (activeMechanismTab() === 'replenishment') {
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">1. Merchant Goal</p>
+                <h3 class="text-base font-semibold text-stone-950 mb-2">Turn Hardware Sales into Recurring MRR</h3>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Pair durable studio hardware with scheduled acoustic calibration, brass wax maintenance kits, and vessel replacement cycles.
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">2. Visible Interface Mechanism</p>
+                <h3 class="text-base font-semibold text-stone-950 mb-2">Contiguous PDP Cadence Selector</h3>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Customers choose between One-Time Purchase and Studio Care Plan (-15% to -18%) directly inside the contiguous purchase module.
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">3. Measurable Benefit</p>
+                <p class="font-mono text-2xl font-bold text-emerald-800 tabular-nums mb-1">3.1× Customer LTV</p>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Generates predictable quarterly subscription revenue with 94.2% annual retention across commercial studio accounts.
+                </p>
+              </div>
+            </div>
+          }
+
+          @if (activeMechanismTab() === 'multi-node') {
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6">
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">1. Merchant Goal</p>
+                <h3 class="text-base font-semibold text-stone-950 mb-2">Prevent Overselling Limited Batch Runs</h3>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Synchronize artisan quarry batches and CNC production runs across D2C storefront checkouts and B2B bulk allocations.
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">2. Visible Interface Mechanism</p>
+                <h3 class="text-base font-semibold text-stone-950 mb-2">Real-Time Reactive Stock Ledger</h3>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Every storefront order immediately decrements vault stock counts and triggers low-stock warnings at &le;10 units.
+                </p>
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-stone-500 uppercase tracking-wider mb-2">3. Measurable Benefit</p>
+                <p class="font-mono text-2xl font-bold text-emerald-800 tabular-nums mb-1">99.98% Inventory Accuracy</p>
+                <p class="text-xs text-stone-600 leading-relaxed">
+                  Eliminates backorder refunds and routes orders to the nearest regional bonded warehouse in Munich, Zurich, or Kyoto.
+                </p>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Recent Live Orders Snapshot Table -->
+        <div class="bg-white border border-stone-200 rounded-2xl overflow-hidden">
+          <div class="px-6 py-4 border-b border-stone-200 flex items-center justify-between">
+            <div>
+              <h3 class="text-base font-semibold text-stone-950">Recent Storefront &amp; B2B Orders</h3>
+              <p class="text-xs text-stone-500">Live feed synced with Storefront checkout</p>
+            </div>
+            <button
+              type="button"
+              (click)="setView('orders')"
+              class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-stone-900 hover:bg-stone-100 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <span>Open Full Order Queue</span>
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">arrow_forward</mat-icon>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-stone-200 text-[11px] font-semibold text-stone-500 uppercase tracking-wider bg-stone-50/70">
+                  <th class="py-3 px-5">Order ID</th>
+                  <th class="py-3 px-5">Client &amp; Organization</th>
+                  <th class="py-3 px-5">Channel &amp; Terms</th>
+                  <th class="py-3 px-5">Status</th>
+                  <th class="py-3 px-5 text-right">Total (USD)</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-200/70 text-xs">
+                @for (order of store.orders().slice(0, 5); track order.id) {
+                  <tr class="hover:bg-stone-50/80 transition-colors">
+                    <td class="py-3 px-5 font-mono font-semibold text-stone-950 tabular-nums">
+                      #{{ order.id }}
+                    </td>
+                    <td class="py-3 px-5">
+                      <span class="font-medium text-stone-900">{{ order.customerName }}</span>
+                      <span class="text-stone-400 mx-1.5" aria-hidden="true">·</span>
+                      <span class="text-stone-600">{{ order.organization }}</span>
+                    </td>
+                    <td class="py-3 px-5 text-stone-600">
+                      <span>{{ order.channel }}</span>
+                      <span class="text-stone-400 mx-1.5" aria-hidden="true">·</span>
+                      <span>{{ order.paymentMethod }}</span>
+                    </td>
+                    <td class="py-3 px-5">
+                      <span
+                        [class]="order.status === 'Fulfilled' ? 'font-medium text-emerald-700' : order.status === 'Processing' ? 'font-medium text-amber-700' : 'font-medium text-stone-700'"
+                      >
+                        {{ order.status }}
+                      </span>
+                    </td>
+                    <td class="py-3 px-5 text-right font-mono font-semibold text-stone-950 tabular-nums">
+                      ${{ order.totalAmount.toLocaleString() }}
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 3: HIGH-DENSITY CATALOG & INVENTORY MANAGER                          -->
+    <!-- ========================================================================= -->
+    @if (activeView() === 'catalog') {
+      <section class="max-w-[1360px] mx-auto px-6 py-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-stone-200">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
+              <span>Merchant Workspace</span>
+              <span aria-hidden="true">/</span>
+              <span class="font-semibold text-stone-900">Catalog &amp; Multi-Node Inventory Ledger</span>
+            </div>
+            <h1 class="font-display text-3xl font-bold text-stone-950">
+              Active SKU Ledger &amp; Stock Allocation
+            </h1>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="relative">
+              <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 !w-4 !h-4 !text-[16px] !leading-4 text-stone-400">search</mat-icon>
+              <input
+                type="text"
+                [formControl]="catalogSearchControl"
+                placeholder="Filter by SKU or product..."
+                aria-label="Search inventory catalog"
+                class="pl-9 pr-3 py-2 text-xs bg-white border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-stone-900 w-56"
+              />
+            </div>
+
+            <button
+              type="button"
+              (click)="showNewProductModal.set(true)"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold text-stone-50 bg-stone-900 rounded-lg hover:bg-stone-800 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">add_circle</mat-icon>
+              <span>Add Product to Storefront</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- High-Density Inventory Data Grid -->
+        <div class="bg-white border border-stone-200 rounded-2xl overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+              <thead>
+                <tr class="border-b border-stone-200 text-[11px] font-semibold text-stone-500 uppercase tracking-wider bg-stone-50">
+                  <th class="py-3 px-5">SKU</th>
+                  <th class="py-3 px-5">Product &amp; Material Spec</th>
+                  <th class="py-3 px-5">Category</th>
+                  <th class="py-3 px-5 text-right">D2C Retail</th>
+                  <th class="py-3 px-5 text-right">B2B Trade (-20%)</th>
+                  <th class="py-3 px-5 text-right">Vault Stock</th>
+                  <th class="py-3 px-5 text-right">Inventory Actions</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-stone-200/70 text-xs">
+                @for (item of filteredCatalog(); track item.id) {
+                  <tr class="hover:bg-stone-50/90 transition-colors">
+                    <td class="py-3 px-5 font-mono font-semibold text-stone-900 tabular-nums whitespace-nowrap">
+                      {{ item.sku }}
+                    </td>
+                    <td class="py-3 px-5">
+                      <div class="font-semibold text-stone-950">{{ item.name }}</div>
+                      <div class="text-stone-500 text-[11px]">{{ item.materials }} · {{ item.origin }}</div>
+                    </td>
+                    <td class="py-3 px-5 text-stone-700 whitespace-nowrap">
+                      {{ item.category }}
+                    </td>
+                    <td class="py-3 px-5 text-right font-mono font-medium text-stone-950 tabular-nums">
+                      ${{ item.retailPrice }}
+                    </td>
+                    <td class="py-3 px-5 text-right font-mono font-medium text-stone-600 tabular-nums">
+                      ${{ item.tradePrice }}
+                    </td>
+                    <td class="py-3 px-5 text-right font-mono font-semibold tabular-nums whitespace-nowrap">
+                      <span [class]="item.stockCount <= 10 ? 'text-amber-700' : 'text-emerald-700'">
+                        {{ item.stockCount }} units
+                      </span>
+                    </td>
+                    <td class="py-3 px-5 text-right whitespace-nowrap">
+                      <div class="inline-flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          (click)="store.adjustProductStock(item.id, -1)"
+                          aria-label="Decrement stock"
+                          class="px-2 py-1 text-xs font-mono bg-stone-100 hover:bg-stone-200 text-stone-800 rounded cursor-pointer"
+                        >
+                          -1
+                        </button>
+                        <button
+                          type="button"
+                          (click)="store.adjustProductStock(item.id, 5)"
+                          aria-label="Restock 5 units"
+                          class="px-2.5 py-1 text-xs font-mono font-medium bg-stone-900 hover:bg-stone-800 text-stone-50 rounded cursor-pointer"
+                        >
+                          +5 Restock
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    }
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 4: LIVE ORDER FULFILLMENT & B2B NET-30 QUEUE                         -->
+    <!-- ========================================================================= -->
+    @if (activeView() === 'orders') {
+      <section class="max-w-[1360px] mx-auto px-6 py-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-6 mb-6 border-b border-stone-200">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
+              <span>Merchant Workspace</span>
+              <span aria-hidden="true">/</span>
+              <span class="font-semibold text-stone-900">Orders &amp; Dispatch Queue</span>
+            </div>
+            <h1 class="font-display text-3xl font-bold text-stone-950">
+              Order Fulfillment &amp; Net-30 Settlement
+            </h1>
+          </div>
+
+          <!-- Interactive Order Filter Bar -->
+          <div class="flex flex-wrap items-center gap-3">
+            <div class="flex items-center gap-1 p-1 bg-stone-200/75 rounded-lg">
+              <button
+                type="button"
+                (click)="orderFilter.set('All')"
+                [class]="orderFilter() === 'All' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                All ({{ store.orders().length }})
+              </button>
+              <button
+                type="button"
+                (click)="orderFilter.set('Processing')"
+                [class]="orderFilter() === 'Processing' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Processing
+              </button>
+              <button
+                type="button"
+                (click)="orderFilter.set('Net-30 Pending')"
+                [class]="orderFilter() === 'Net-30 Pending' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Net-30 Pending
+              </button>
+              <button
+                type="button"
+                (click)="orderFilter.set('Fulfilled')"
+                [class]="orderFilter() === 'Fulfilled' ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Fulfilled
+              </button>
+            </div>
+
+            <div class="relative">
+              <mat-icon class="absolute left-3 top-1/2 -translate-y-1/2 !w-4 !h-4 !text-[16px] !leading-4 text-stone-400">search</mat-icon>
+              <input
+                type="text"
+                [formControl]="orderSearchControl"
+                placeholder="Search order ID, client, city..."
+                aria-label="Search orders"
+                class="pl-9 pr-3 py-2 text-xs bg-white border border-stone-300 rounded-lg text-stone-900 placeholder:text-stone-400 focus:outline-none focus:border-stone-900 w-56"
+              />
+            </div>
+          </div>
+        </div>
+
+        @if (filteredOrders().length === 0) {
+          <div class="bg-white border border-stone-200 rounded-2xl p-12 text-center">
+            <p class="font-display text-2xl font-semibold text-stone-900 mb-2">
+              No orders match your current filter
+            </p>
+            <p class="text-xs text-stone-600 mb-5">
+              Place a test order on the Storefront or clear the status filter to inspect all orders.
+            </p>
+            <button
+              type="button"
+              (click)="orderFilter.set('All'); orderSearchControl.setValue('')"
+              class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-stone-900 text-stone-50 rounded-lg cursor-pointer"
+            >
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">filter_alt_off</mat-icon>
+              <span>Show All Orders</span>
+            </button>
+          </div>
+        } @else {
+          <div class="bg-white border border-stone-200 rounded-2xl overflow-hidden">
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse">
+                <thead>
+                  <tr class="border-b border-stone-200 text-[11px] font-semibold text-stone-500 uppercase tracking-wider bg-stone-50">
+                    <th class="py-3 px-5">Order ID &amp; Timestamp</th>
+                    <th class="py-3 px-5">Client &amp; Destination</th>
+                    <th class="py-3 px-5">Line Items Summary</th>
+                    <th class="py-3 px-5">Channel &amp; Payment</th>
+                    <th class="py-3 px-5">Status</th>
+                    <th class="py-3 px-5 text-right">Amount</th>
+                    <th class="py-3 px-5 text-right">Dispatch Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-stone-200/70 text-xs">
+                  @for (order of filteredOrders(); track order.id) {
+                    <tr class="hover:bg-stone-50/90 transition-colors">
+                      <td class="py-3.5 px-5 whitespace-nowrap">
+                        <div class="font-mono font-bold text-stone-950 tabular-nums">#{{ order.id }}</div>
+                        <div class="font-mono text-[11px] text-stone-500 tabular-nums">{{ order.createdAt }}</div>
+                      </td>
+                      <td class="py-3.5 px-5">
+                        <div class="font-semibold text-stone-900">{{ order.customerName }}</div>
+                        <div class="text-stone-500 text-[11px]">{{ order.organization }} · {{ order.shippingCity }}</div>
+                      </td>
+                      <td class="py-3.5 px-5 text-stone-700 max-w-xs truncate" [title]="order.lineSummary">
+                        {{ order.lineSummary }}
+                      </td>
+                      <td class="py-3.5 px-5 text-stone-600 whitespace-nowrap">
+                        <div>{{ order.channel }}</div>
+                        <div class="text-[11px] text-stone-500">{{ order.paymentMethod }}</div>
+                      </td>
+                      <td class="py-3.5 px-5 whitespace-nowrap">
+                        <span
+                          [class]="order.status === 'Fulfilled' ? 'font-semibold text-emerald-700' : order.status === 'Processing' ? 'font-semibold text-amber-700' : 'font-semibold text-stone-700'"
+                        >
+                          {{ order.status }}
+                        </span>
+                      </td>
+                      <td class="py-3.5 px-5 text-right font-mono font-semibold text-stone-950 tabular-nums whitespace-nowrap">
+                        ${{ order.totalAmount.toLocaleString() }}
+                      </td>
+                      <td class="py-3.5 px-5 text-right whitespace-nowrap">
+                        @if (order.status !== 'Fulfilled') {
+                          <button
+                            type="button"
+                            (click)="store.advanceOrderStatus(order.id)"
+                            class="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-semibold bg-stone-900 text-stone-50 hover:bg-stone-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                          >
+                            <mat-icon class="!w-3.5 !h-3.5 !text-[14px] !leading-3.5">local_shipping</mat-icon>
+                            <span>{{ order.status === 'Net-30 Pending' ? 'Approve Net-30' : 'Mark Fulfilled' }}</span>
+                          </button>
+                        } @else {
+                          <span class="text-xs text-stone-400 font-mono">Dispatched</span>
+                        }
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div>
+        }
+      </section>
+    }
+
+    <!-- ========================================================================= -->
+    <!-- VIEW 5: SAAS COMMERCE PLATFORM PRICING & FEE SAVINGS CALCULATOR           -->
+    <!-- ========================================================================= -->
+    @if (activeView() === 'pricing') {
+      <section class="max-w-[1360px] mx-auto px-6 py-10">
+        <!-- Pricing Header & Billing Cadence Toggle (Placed in Workspace Toolbar, NOT Top Bar) -->
+        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-8 mb-10 border-b border-stone-200">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-stone-500 mb-2">
+              <span>Vellum Commerce OS Licensing</span>
+              <span aria-hidden="true">·</span>
+              <span>Transparent Tier Architecture</span>
+            </div>
+            <h1 class="font-display text-4xl font-bold text-stone-950 text-balance">
+              Predictable SaaS Infrastructure for High-Value Brands
+            </h1>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <span class="text-xs text-stone-600">Billing Cadence:</span>
+            <div class="flex items-center gap-1 p-1 bg-stone-200/80 rounded-lg">
+              <button
+                type="button"
+                (click)="annualBilling.set(false)"
+                [class]="!annualBilling() ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Monthly Billing
+              </button>
+              <button
+                type="button"
+                (click)="annualBilling.set(true)"
+                [class]="annualBilling() ? 'px-3 py-1.5 text-xs font-semibold bg-white text-stone-950 rounded-md shadow-xs whitespace-nowrap shrink-0 cursor-pointer' : 'px-3 py-1.5 text-xs font-medium text-stone-600 hover:text-stone-950 whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                Annual (-20%)
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3-Column SaaS Tier Cards Named by Target Audience -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+          @for (tier of store.saasTiers; track tier.id) {
+            <div
+              [class]="selectedSaasTierId() === tier.id ? 'bg-white border-2 border-stone-900 rounded-2xl p-8 flex flex-col justify-between' : 'bg-white border border-stone-200 rounded-2xl p-8 flex flex-col justify-between'"
+            >
+              <div>
+                <div class="flex items-center justify-between gap-2 text-xs text-stone-500 mb-2">
+                  <span>{{ tier.audience }}</span>
+                  @if (tier.recommended) {
+                    <span class="font-semibold text-amber-800">Most Adopted</span>
+                  }
+                </div>
+
+                <h2 class="font-display text-2xl font-bold text-stone-950 mb-4">
+                  {{ tier.name }}
+                </h2>
+
+                <div class="flex items-baseline gap-2 pb-6 mb-6 border-b border-stone-200">
+                  <span class="font-mono text-4xl font-bold text-stone-950 tabular-nums">
+                    ${{ annualBilling() ? tier.annualPricePerMonth : tier.monthlyPrice }}
+                  </span>
+                  <span class="text-xs text-stone-500">/ month {{ annualBilling() ? 'billed annually' : 'billed monthly' }}</span>
+                </div>
+
+                <!-- Concrete Specifications (No vague checkmark rows) -->
+                <dl class="space-y-3.5 text-xs mb-8">
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-stone-500">Transaction Platform Fee</dt>
+                    <dd class="font-mono font-semibold text-stone-950 tabular-nums">{{ tier.platformFeePct }}</dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-stone-500">Catalog Capacity</dt>
+                    <dd class="font-mono font-medium text-stone-900 tabular-nums">{{ tier.skuLimit }}</dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-stone-500">B2B Trade Module</dt>
+                    <dd class="font-medium text-stone-900 text-right">{{ tier.b2bPortalIncluded }}</dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-stone-500">Recurring Engine</dt>
+                    <dd class="font-medium text-stone-900 text-right">{{ tier.subscriptionEngine }}</dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-stone-500">Warehouse Routing</dt>
+                    <dd class="font-mono font-medium text-stone-900 tabular-nums">{{ tier.warehouseNodes }}</dd>
+                  </div>
+                  <div class="flex items-baseline justify-between gap-4">
+                    <dt class="text-stone-500">Uptime Guarantee</dt>
+                    <dd class="font-mono font-semibold text-emerald-700 tabular-nums">{{ tier.slaGuarantee }}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <button
+                type="button"
+                (click)="selectSaasTier(tier.id, tier.name)"
+                [class]="selectedSaasTierId() === tier.id ? 'w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-xs font-semibold bg-stone-950 text-stone-50 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer' : 'w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-xs font-semibold bg-stone-100 text-stone-900 hover:bg-stone-200 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer'"
+              >
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">
+                  {{ selectedSaasTierId() === tier.id ? 'check_circle' : 'bolt' }}
+                </mat-icon>
+                <span>{{ selectedSaasTierId() === tier.id ? 'Active Workspace Plan' : 'Activate ' + tier.name }}</span>
+              </button>
+            </div>
+          }
+        </div>
+
+        <!-- Interactive GMV Fee Savings Calculator -->
+        <div class="bg-[#F3EFE6] border border-stone-200 rounded-2xl p-8">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-7">
+              <h3 class="font-display text-2xl font-bold text-stone-950 mb-2">
+                Interactive Platform Fee Savings Estimator
+              </h3>
+              <p class="text-xs text-stone-600 mb-6">
+                Select your monthly D2C + B2B gross merchandise volume to compare Vellum Atelier Operations (0.5% platform fee) against legacy e-commerce platforms (2.9% fee).
+              </p>
+              <div class="flex flex-wrap items-center gap-2">
+                @for (val of [40000, 85000, 150000, 350000]; track val) {
+                  <button
+                    type="button"
+                    (click)="setSimulatedGmv(val)"
+                    [class]="simulatedMonthlyGmv() === val ? 'px-3.5 py-2 text-xs font-mono font-semibold bg-stone-900 text-stone-50 rounded-lg tabular-nums cursor-pointer' : 'px-3.5 py-2 text-xs font-mono font-medium bg-white border border-stone-300 text-stone-800 hover:bg-stone-100 rounded-lg tabular-nums cursor-pointer'"
+                  >
+                    ${{ val.toLocaleString() }} / mo
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-white border border-stone-200 rounded-xl p-6 flex items-center justify-between">
+              <div>
+                <p class="text-xs text-stone-500 mb-1">Estimated Annual Fee Reduction</p>
+                <p class="font-mono text-3xl font-bold text-emerald-800 tabular-nums">
+                  +${{ annualFeeSavings().toLocaleString() }} / yr
+                </p>
+                <p class="text-[11px] text-stone-500 mt-1">Retained net margin on ${{ (simulatedMonthlyGmv() * 12).toLocaleString() }} annual GMV</p>
+              </div>
+              <button
+                type="button"
+                (click)="setView('storefront')"
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-lg hover:bg-stone-800 transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">storefront</mat-icon>
+                <span>Test Live Store</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    }
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- SLIDE-OVER SHOPPING BAG & CHECKOUT DRAWER                                 -->
+  <!-- ========================================================================= -->
+  @if (cartDrawerOpen()) {
+    <div class="fixed inset-0 z-50 flex justify-end bg-stone-950/50 backdrop-blur-xs">
+      <div class="w-full max-w-lg bg-[#FAF8F5] h-full flex flex-col justify-between shadow-xl border-l border-stone-200 overflow-y-auto">
+        <!-- Drawer Header -->
+        <div class="px-6 py-5 border-b border-stone-200 flex items-center justify-between bg-white sticky top-0 z-10">
+          <div>
+            <h2 class="font-display text-2xl font-bold text-stone-950">
+              @if (checkoutStep() === 'bag') {
+                Shopping Bag (<span class="font-mono tabular-nums">{{ store.cartCount() }}</span>)
+              } @else if (checkoutStep() === 'checkout') {
+                Verification &amp; Settlement
+              } @else {
+                Order Confirmed
+              }
+            </h2>
+            <p class="text-xs text-stone-500">
+              @if (freeShippingRemaining() === 0) {
+                Complimentary insured express courier unlocked
+              } @else {
+                Add <span class="font-mono font-semibold text-stone-900 tabular-nums">${{ freeShippingRemaining() }}</span> more for complimentary express freight
+              }
+            </p>
+          </div>
+
+          <button
+            type="button"
+            (click)="closeCartDrawer()"
+            aria-label="Close shopping bag"
+            class="p-2 text-stone-500 hover:text-stone-900 rounded-lg hover:bg-stone-100 transition-colors cursor-pointer"
+          >
+            <mat-icon class="!w-5 !h-5 !text-[20px] !leading-5">close</mat-icon>
+          </button>
+        </div>
+
+        <!-- Free Shipping Progress Bar -->
+        <div class="h-1 w-full bg-stone-200">
+          <div
+            class="h-full bg-stone-900 transition-all duration-200"
+            [style.width.%]="freeShippingProgressPct()"
+          ></div>
+        </div>
+
+        <!-- STEP 1: BAG ITEMIZED LIST -->
+        @if (checkoutStep() === 'bag') {
+          <div class="flex-1 p-6 space-y-4 overflow-y-auto">
+            @if (store.cart().length === 0) {
+              <div class="text-center py-16">
+                <p class="font-display text-2xl font-semibold text-stone-900 mb-2">
+                  Your studio bag is currently empty
+                </p>
+                <p class="text-xs text-stone-600 mb-6">
+                  Explore our architectural lighting, acoustic monitors, and tactile desk instruments.
+                </p>
+                <button
+                  type="button"
+                  (click)="closeCartDrawer(); setView('storefront')"
+                  class="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-lg cursor-pointer"
+                >
+                  <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">explore</mat-icon>
+                  <span>Browse Collection</span>
+                </button>
+              </div>
+            } @else {
+              @for (item of store.cart(); track item.id) {
+                <div class="bg-white border border-stone-200 rounded-xl p-4 flex gap-4 items-center">
+                  <img
+                    [src]="item.product.imageUrl"
+                    [alt]="item.product.name"
+                    referrerpolicy="no-referrer"
+                    class="w-20 h-16 object-cover rounded-lg bg-[#F2EFE9] shrink-0"
+                  />
+                  <div class="flex-1 min-w-0">
+                    <div class="flex items-baseline justify-between gap-2">
+                      <h3 class="text-sm font-semibold text-stone-950 truncate">
+                        {{ item.product.name }}
+                      </h3>
+                      <span class="font-mono text-sm font-semibold text-stone-950 tabular-nums shrink-0">
+                        ${{ item.unitPrice * item.quantity }}
+                      </span>
+                    </div>
+                    <p class="text-xs text-stone-500 mt-0.5">
+                      {{ item.finish }} ·
+                      {{ item.cadence === 'subscription' ? 'Studio Care Plan' : item.cadence === 'b2b-pack' ? 'B2B Trade Rate' : 'One-Time' }}
+                    </p>
+
+                    <div class="flex items-center justify-between mt-3">
+                      <div class="inline-flex items-center gap-2">
+                        <button
+                          type="button"
+                          (click)="store.updateCartQuantity(item.id, -1)"
+                          aria-label="Decrease item quantity"
+                          class="w-6 h-6 inline-flex items-center justify-center rounded border border-stone-300 text-stone-700 hover:bg-stone-100 cursor-pointer"
+                        >
+                          -
+                        </button>
+                        <span class="font-mono text-xs font-semibold tabular-nums">{{ item.quantity }}</span>
+                        <button
+                          type="button"
+                          (click)="store.updateCartQuantity(item.id, 1)"
+                          aria-label="Increase item quantity"
+                          class="w-6 h-6 inline-flex items-center justify-center rounded border border-stone-300 text-stone-700 hover:bg-stone-100 cursor-pointer"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      <button
+                        type="button"
+                        (click)="store.removeCartItem(item.id)"
+                        class="inline-flex items-center gap-1 text-xs text-stone-400 hover:text-red-700 transition-colors cursor-pointer"
+                      >
+                        <mat-icon class="!w-3.5 !h-3.5 !text-[14px] !leading-3.5">delete_outline</mat-icon>
+                        <span>Remove</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Trade / Promo Code Input -->
+              <div class="pt-4 border-t border-stone-200">
+                <label for="promo-code-input" class="block text-xs font-medium text-stone-700 mb-1.5">
+                  Promotional or Trade Verification Code (Try <span class="font-mono font-semibold">VELLUM15</span> or <span class="font-mono font-semibold">TRADE20</span>)
+                </label>
+                <div class="flex gap-2">
+                  <input
+                    id="promo-code-input"
+                    type="text"
+                    [formControl]="promoControl"
+                    placeholder="Enter VELLUM15"
+                    class="flex-1 px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg uppercase font-mono"
+                  />
+                  <button
+                    type="button"
+                    (click)="applyPromo()"
+                    class="inline-flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-stone-200 hover:bg-stone-300 text-stone-900 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+                  >
+                    <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">sell</mat-icon>
+                    <span>Apply</span>
+                  </button>
+                </div>
+                @if (promoFeedback()) {
+                  <p class="text-xs text-stone-600 mt-1.5">{{ promoFeedback() }}</p>
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Bag Subtotal & Proceed Footer -->
+          @if (store.cart().length > 0) {
+            <div class="p-6 bg-white border-t border-stone-200 space-y-3">
+              <div class="flex justify-between text-xs text-stone-600">
+                <span>Subtotal</span>
+                <span class="font-mono font-medium text-stone-900 tabular-nums">${{ store.cartSubtotal() }}</span>
+              </div>
+              @if (store.discountAmount() > 0) {
+                <div class="flex justify-between text-xs text-emerald-700">
+                  <span>Trade / Promo Discount ({{ store.appliedPromo() }})</span>
+                  <span class="font-mono font-medium tabular-nums">-${{ store.discountAmount() }}</span>
+                </div>
+              }
+              <div class="flex justify-between text-xs text-stone-600">
+                <span>Insured Express Freight (Free over $450)</span>
+                <span class="font-mono font-medium text-stone-900 tabular-nums">
+                  {{ store.shippingCost() === 0 ? 'Complimentary ($0)' : '$' + store.shippingCost() }}
+                </span>
+              </div>
+              <div class="flex justify-between text-base font-bold text-stone-950 pt-3 border-t border-stone-200">
+                <span>Total Due</span>
+                <span class="font-mono tabular-nums">${{ store.cartTotal() }} USD</span>
+              </div>
+
+              <button
+                type="button"
+                (click)="proceedToCheckout()"
+                class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold text-stone-50 bg-stone-950 hover:bg-stone-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">lock</mat-icon>
+                <span>Proceed to Verification &amp; Checkout</span>
+              </button>
+            </div>
+          }
+        }
+
+        <!-- STEP 2: CHECKOUT & PAYMENT TERMS FORM -->
+        @if (checkoutStep() === 'checkout') {
+          <form [formGroup]="checkoutForm" (ngSubmit)="completeOrder()" class="flex-1 flex flex-col justify-between p-6 space-y-6">
+            <div class="space-y-4">
+              <button
+                type="button"
+                (click)="backToBag()"
+                class="inline-flex items-center gap-1 text-xs font-medium text-stone-600 hover:text-stone-950 cursor-pointer"
+              >
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">arrow_back</mat-icon>
+                <span>Return to Itemized Bag</span>
+              </button>
+
+              <div>
+                <label for="checkout-name" class="block text-xs font-semibold text-stone-800 mb-1">Full Name / Specifier</label>
+                <input
+                  id="checkout-name"
+                  type="text"
+                  formControlName="customerName"
+                  class="w-full px-3.5 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+                />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="checkout-org" class="block text-xs font-semibold text-stone-800 mb-1">Studio / Organization</label>
+                  <input
+                    id="checkout-org"
+                    type="text"
+                    formControlName="organization"
+                    class="w-full px-3.5 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+                  />
+                </div>
+                <div>
+                  <label for="checkout-phone" class="block text-xs font-semibold text-stone-800 mb-1">Verification Phone</label>
+                  <input
+                    id="checkout-phone"
+                    type="text"
+                    formControlName="phone"
+                    class="w-full px-3.5 py-2 text-xs bg-white border border-stone-300 rounded-lg font-mono"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label for="checkout-email" class="block text-xs font-semibold text-stone-800 mb-1">Dispatch Notification Email</label>
+                <input
+                  id="checkout-email"
+                  type="email"
+                  formControlName="email"
+                  class="w-full px-3.5 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+                />
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="checkout-address" class="block text-xs font-semibold text-stone-800 mb-1">Street Address &amp; Postal Code</label>
+                  <input
+                    id="checkout-address"
+                    type="text"
+                    formControlName="shippingAddress"
+                    class="w-full px-3.5 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+                  />
+                </div>
+                <div>
+                  <label for="checkout-city" class="block text-xs font-semibold text-stone-800 mb-1">City &amp; Country</label>
+                  <input
+                    id="checkout-city"
+                    type="text"
+                    formControlName="shippingCity"
+                    class="w-full px-3.5 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+                  />
+                </div>
+              </div>
+
+              <!-- Payment Terms Selector (Net-30, Card, or Cash on Delivery) -->
+              <div>
+                <span class="block text-xs font-semibold text-stone-800 mb-2">Settlement Method</span>
+                <div class="space-y-2">
+                  <label class="flex items-center justify-between p-3 bg-white border border-stone-300 rounded-xl cursor-pointer">
+                    <div class="flex items-center gap-2.5">
+                      <input type="radio" formControlName="paymentMethod" value="Corporate Net-30" />
+                      <div>
+                        <span class="block text-xs font-semibold text-stone-900">Corporate Net-30 Invoice</span>
+                        <span class="block text-[11px] text-stone-500">30-day wire settlement for verified studios</span>
+                      </div>
+                    </div>
+                    <span class="font-mono text-xs text-stone-600">0% Fee</span>
+                  </label>
+
+                  <label class="flex items-center justify-between p-3 bg-white border border-stone-300 rounded-xl cursor-pointer">
+                    <div class="flex items-center gap-2.5">
+                      <input type="radio" formControlName="paymentMethod" value="Card Ending 4819" />
+                      <div>
+                        <span class="block text-xs font-semibold text-stone-900">Corporate Commercial Card</span>
+                        <span class="block text-[11px] text-stone-500">Instant authorization via encrypted vault</span>
+                      </div>
+                    </div>
+                    <span class="font-mono text-xs text-stone-600">Instant</span>
+                  </label>
+
+                  <label class="flex items-center justify-between p-3 bg-white border border-stone-300 rounded-xl cursor-pointer">
+                    <div class="flex items-center gap-2.5">
+                      <input type="radio" formControlName="paymentMethod" value="Cash on Delivery" />
+                      <div>
+                        <span class="block text-xs font-semibold text-stone-900">Cash on Delivery (COD) / Courier Settlement</span>
+                        <span class="block text-[11px] text-stone-500">Pay upon studio inspection at delivery</span>
+                      </div>
+                    </div>
+                    <span class="font-mono text-xs text-stone-600">Verified</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-stone-200">
+              <div class="flex justify-between text-sm font-bold text-stone-950 mb-4">
+                <span>Total Settlement Amount</span>
+                <span class="font-mono tabular-nums">${{ store.cartTotal() }} USD</span>
+              </div>
+              <button
+                type="submit"
+                class="w-full inline-flex items-center justify-center gap-2 px-6 py-3.5 text-xs font-semibold text-stone-50 bg-stone-950 hover:bg-stone-800 rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">verified</mat-icon>
+                <span>Authorize Order &amp; Sync to Warehouse</span>
+              </button>
+            </div>
+          </form>
+        }
+
+        <!-- STEP 3: POST-ORDER CONFIRMATION & RECEIPT SUMMARY -->
+        @if (checkoutStep() === 'confirmed' && lastConfirmedOrder()) {
+          @let confirmed = lastConfirmedOrder()!;
+          <div class="flex-1 p-6 flex flex-col justify-between">
+            <div class="bg-white border border-stone-200 rounded-2xl p-6 space-y-4">
+              <div class="flex items-center gap-2 text-xs font-semibold text-emerald-800">
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">task_alt</mat-icon>
+                <span>Order #{{ confirmed.id }} Confirmed — Preparing Shipment</span>
+              </div>
+
+              <h3 class="font-display text-2xl font-bold text-stone-950">
+                Thank you, {{ confirmed.customerName }}
+              </h3>
+
+              <p class="text-xs text-stone-600 leading-relaxed">
+                Your order has been allocated in our Munich facility and injected directly into the live Merchant Order Fulfillment Queue.
+              </p>
+
+              <dl class="pt-4 border-t border-stone-200 space-y-2.5 text-xs">
+                <div class="flex justify-between">
+                  <dt class="text-stone-500">Order Reference</dt>
+                  <dd class="font-mono font-semibold text-stone-950 tabular-nums">#{{ confirmed.id }}</dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-stone-500">Organization</dt>
+                  <dd class="font-medium text-stone-900">{{ confirmed.organization }}</dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-stone-500">Destination</dt>
+                  <dd class="font-medium text-stone-900">{{ confirmed.shippingCity }}</dd>
+                </div>
+                <div class="flex justify-between">
+                  <dt class="text-stone-500">Payment Method</dt>
+                  <dd class="font-medium text-stone-900">{{ confirmed.paymentMethod }}</dd>
+                </div>
+                <div class="flex justify-between pt-2 border-t border-stone-100">
+                  <dt class="font-semibold text-stone-900">Total Authorized</dt>
+                  <dd class="font-mono font-bold text-stone-950 tabular-nums">${{ confirmed.totalAmount }} USD</dd>
+                </div>
+              </dl>
+            </div>
+
+            <div class="space-y-2.5 pt-6">
+              <button
+                type="button"
+                (click)="viewConfirmedOrderInConsole()"
+                class="w-full inline-flex items-center justify-center gap-2 px-5 py-3 text-xs font-semibold bg-stone-950 text-stone-50 rounded-lg hover:bg-stone-800 transition-colors cursor-pointer"
+              >
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">receipt_long</mat-icon>
+                <span>Inspect Order #{{ confirmed.id }} in Merchant Console</span>
+              </button>
+              <button
+                type="button"
+                (click)="closeCartDrawer()"
+                class="w-full inline-flex items-center justify-center gap-2 px-5 py-2.5 text-xs font-medium bg-stone-200/80 text-stone-900 rounded-lg hover:bg-stone-300 transition-colors cursor-pointer"
+              >
+                <span>Continue Browsing Storefront</span>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  }
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: QUICK PDP SPEC CONFIGURATOR                                        -->
+  <!-- ========================================================================= -->
+  @if (pdpModalOpen()) {
+    @let modalProduct = activeProduct();
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/55 backdrop-blur-xs">
+      <div class="bg-[#FAF8F5] border border-stone-200 rounded-2xl max-w-3xl w-full p-6 lg:p-8 shadow-xl max-h-[90vh] overflow-y-auto">
+        <div class="flex items-start justify-between gap-4 pb-4 mb-6 border-b border-stone-200">
+          <div>
+            <div class="flex items-center gap-2 text-xs text-stone-500 mb-1">
+              <span>{{ modalProduct.category }}</span>
+              <span aria-hidden="true">·</span>
+              <span class="font-mono tabular-nums">{{ modalProduct.sku }}</span>
+              <span aria-hidden="true">·</span>
+              <span>{{ modalProduct.origin }}</span>
+            </div>
+            <h2 class="font-display text-2xl font-bold text-stone-950">{{ modalProduct.name }}</h2>
+          </div>
+          <button
+            type="button"
+            (click)="closePdpModal()"
+            aria-label="Close specification modal"
+            class="p-1.5 text-stone-500 hover:text-stone-900 rounded-lg hover:bg-stone-200/60 cursor-pointer"
+          >
+            <mat-icon class="!w-5 !h-5 !text-[20px] !leading-5">close</mat-icon>
+          </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+          <div class="aspect-4/3 rounded-xl overflow-hidden bg-[#F2EFE9] border border-stone-200">
+            <img
+              [src]="modalProduct.imageUrl"
+              [alt]="modalProduct.name"
+              referrerpolicy="no-referrer"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <div class="space-y-4">
+            <p class="text-xs text-stone-600 leading-relaxed">{{ modalProduct.description }}</p>
+
+            <div class="text-xs space-y-1 pt-2 border-t border-stone-200">
+              <div><span class="text-stone-500">Materials:</span> <span class="font-medium text-stone-900">{{ modalProduct.materials }}</span></div>
+              <div><span class="text-stone-500">Dimensions:</span> <span class="font-mono text-stone-900 tabular-nums">{{ modalProduct.dimensions }}</span></div>
+            </div>
+
+            <div>
+              <span class="block text-xs font-semibold text-stone-800 mb-1.5">Select Finish</span>
+              <div class="flex flex-wrap gap-2">
+                @for (finish of modalProduct.finishes; track finish) {
+                  <button
+                    type="button"
+                    (click)="selectedFinish.set(finish)"
+                    [class]="selectedFinish() === finish ? 'px-3 py-1.5 text-xs font-semibold bg-stone-900 text-stone-50 rounded-lg cursor-pointer' : 'px-3 py-1.5 text-xs font-medium bg-stone-200/75 text-stone-800 rounded-lg cursor-pointer'"
+                  >
+                    {{ finish }}
+                  </button>
+                }
+              </div>
+            </div>
+
+            <div class="pt-4 border-t border-stone-200 flex items-center justify-between gap-4">
+              <div>
+                <span class="block text-[11px] text-stone-500">Configured Unit Price</span>
+                <span class="font-mono text-xl font-bold text-stone-950 tabular-nums">${{ activeProductUnitPrice() }}</span>
+              </div>
+              <button
+                type="button"
+                (click)="addConfiguredProductToCart()"
+                class="inline-flex items-center gap-2 px-5 py-2.5 text-xs font-semibold bg-stone-950 text-stone-50 rounded-lg hover:bg-stone-800 transition-colors cursor-pointer"
+              >
+                <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">add_shopping_cart</mat-icon>
+                <span>Add to Bag</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: PUBLISH NEW SKU TO STOREFRONT                                      -->
+  <!-- ========================================================================= -->
+  @if (showNewProductModal()) {
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-stone-950/55 backdrop-blur-xs">
+      <div class="bg-[#FAF8F5] border border-stone-200 rounded-2xl max-w-lg w-full p-6 lg:p-8 shadow-xl">
+        <div class="flex items-center justify-between pb-4 mb-5 border-b border-stone-200">
+          <div>
+            <h2 class="font-display text-2xl font-bold text-stone-950">Publish New Catalog SKU</h2>
+            <p class="text-xs text-stone-500">Immediately syncs to the live D2C &amp; B2B Storefront</p>
+          </div>
+          <button
+            type="button"
+            (click)="showNewProductModal.set(false)"
+            aria-label="Close new product modal"
+            class="p-1.5 text-stone-500 hover:text-stone-900 rounded-lg cursor-pointer"
+          >
+            <mat-icon class="!w-5 !h-5 !text-[20px] !leading-5">close</mat-icon>
+          </button>
+        </div>
+
+        <form [formGroup]="newProductForm" (ngSubmit)="submitNewProduct()" class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="sm:col-span-2">
+              <label for="new-prod-name" class="block text-xs font-semibold text-stone-800 mb-1">Product Title</label>
+              <input
+                id="new-prod-name"
+                type="text"
+                formControlName="name"
+                placeholder="e.g. Bronze Architectural Wall Sconce"
+                class="w-full px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+              />
+            </div>
+            <div>
+              <label for="new-prod-sku" class="block text-xs font-semibold text-stone-800 mb-1">SKU Code</label>
+              <input
+                id="new-prod-sku"
+                type="text"
+                formControlName="sku"
+                class="w-full px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg font-mono uppercase"
+              />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label for="new-prod-cat" class="block text-xs font-semibold text-stone-800 mb-1">Category</label>
+              <select
+                id="new-prod-cat"
+                formControlName="category"
+                class="w-full px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+              >
+                <option value="Lighting">Lighting</option>
+                <option value="Acoustics">Acoustics</option>
+                <option value="Desk Hardware">Desk Hardware</option>
+                <option value="Vessels">Vessels</option>
+              </select>
+            </div>
+            <div>
+              <label for="new-prod-price" class="block text-xs font-semibold text-stone-800 mb-1">Retail Price ($)</label>
+              <input
+                id="new-prod-price"
+                type="number"
+                formControlName="retailPrice"
+                class="w-full px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg font-mono"
+              />
+            </div>
+            <div>
+              <label for="new-prod-stock" class="block text-xs font-semibold text-stone-800 mb-1">Initial Vault Stock</label>
+              <input
+                id="new-prod-stock"
+                type="number"
+                formControlName="stockCount"
+                class="w-full px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg font-mono"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="new-prod-materials" class="block text-xs font-semibold text-stone-800 mb-1">Materials Provenance</label>
+            <input
+              id="new-prod-materials"
+              type="text"
+              formControlName="materials"
+              class="w-full px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+            />
+          </div>
+
+          <div>
+            <label for="new-prod-subtitle" class="block text-xs font-semibold text-stone-800 mb-1">Architectural Subtitle</label>
+            <input
+              id="new-prod-subtitle"
+              type="text"
+              formControlName="subtitle"
+              class="w-full px-3 py-2 text-xs bg-white border border-stone-300 rounded-lg"
+            />
+          </div>
+
+          <div class="pt-4 border-t border-stone-200 flex items-center justify-end gap-3">
+            <button
+              type="button"
+              (click)="showNewProductModal.set(false)"
+              class="px-4 py-2 text-xs font-medium text-stone-700 hover:bg-stone-200/60 rounded-lg cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="inline-flex items-center gap-1.5 px-5 py-2 text-xs font-semibold bg-stone-950 text-stone-50 rounded-lg hover:bg-stone-800 cursor-pointer"
+            >
+              <mat-icon class="!w-4 !h-4 !text-[16px] !leading-4">publish</mat-icon>
+              <span>Publish to Storefront</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Quiet Editorial Footer (No telemetry tickers or fake background engines) -->
+  <footer class="border-t border-stone-200/80 bg-[#F3EFE6] mt-16">
+    <div class="max-w-[1360px] mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-stone-600">
+      <div class="flex items-center gap-2">
+        <span class="font-display font-bold text-sm text-stone-950">Vellum Commerce</span>
+        <span aria-hidden="true">·</span>
+        <span>Munich &amp; Zurich Architectural Commerce Systems</span>
+        <span aria-hidden="true">·</span>
+        <span>&copy; 2026 Vellum Commerce GmbH</span>
+      </div>
+      <div class="flex items-center gap-6">
+        <a href="#storefront" (click)="setView('storefront', $event)" class="hover:text-stone-950 transition-colors">Storefront</a>
+        <a href="#console" (click)="setView('console', $event)" class="hover:text-stone-950 transition-colors">Merchant Console</a>
+        <a href="#catalog" (click)="setView('catalog', $event)" class="hover:text-stone-950 transition-colors">Inventory Ledger</a>
+        <a href="#pricing" (click)="setView('pricing', $event)" class="hover:text-stone-950 transition-colors">SaaS Licensing</a>
+      </div>
+    </div>
+  </footer>
+</div>

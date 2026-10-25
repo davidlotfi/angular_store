@@ -1,0 +1,6 @@
+{
+  "name": "Vellum Commerce",
+  "description": "Unified SaaS e-commerce platform and architectural storefront featuring D2C/B2B catalog management, contiguous product configurator, subscription billing, and live order fulfillment.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
